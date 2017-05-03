@@ -1,0 +1,57 @@
+package rules
+import java.awt.Color;
+import javax.swing.ImageIcon;
+
+import com.javainuse.model.TeleInterface
+import com.javainuse.model.SimulaRegras
+
+
+
+rule "Num1"
+		salience(sr.gSal(0))
+		
+	when 
+	
+		t: TeleInterface ()
+		sr: SimulaRegras(pleasant == false && activation == false && context == "working", multitask == true, state == "stuck")
+		
+	then
+		t.gMap.setEnabled(true);
+		t.gMap.setForeground(Color.GREEN);
+		t.background.setIcon(new ImageIcon("ponto.png"));
+		t.action("gMap", false);
+		t.infoBox("optimization", "add", "Adicionar ponto no grid map e fornecer o caminho");
+		t.sSal(0);
+end
+rule "Num2"
+		salience(sr.gSal(1))
+		
+	when 
+		t: TeleInterface ()
+		sr: SimulaRegras(pleasant == false && activation == false && context == "working", multitask == true, state == "stuck")
+	then
+		t.headV.setEnabled(true);
+		t.headV.setForeground(Color.GREEN);
+		t.background.setIcon(new ImageIcon("i.png"));
+		t.action("headV", true);
+		t.infoBox("view", "change", "Alterar contrastes/Cores para resolver problemas de reflexos/luminosidade");
+		t.sSal(1);
+end
+rule "Num3"
+		salience(sr.gSal(2))
+
+	when 
+		t: TeleInterface ()
+		sr: SimulaRegras(pleasant == false && activation == false && context == "working", multitask == true, state == "stuck")
+	then
+		t.robotV.setEnabled(true);
+		t.robotV.setForeground(Color.GREEN);
+		t.background.setIcon(new ImageIcon("focar.png"));
+		t.action("robotV", true);
+		t.infoBox("optimization", "focus", "Focar o caminho/objetivo caso esteja distraído");
+		t.sSal(2);
+end
+
+
+
+
