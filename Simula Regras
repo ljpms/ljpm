@@ -1,0 +1,32 @@
+package com.javainuse.model;
+
+import java.util.HashMap;
+
+public class SimulaRegras {
+
+	
+	public String context;
+	public String state;
+	public boolean activation;
+	public boolean pleasant;
+	public boolean multitask;
+	public HashMap<Integer, Integer> sal;
+	public boolean stop;
+	
+
+	public SimulaRegras(boolean pleasant, boolean activation, String context, boolean multitask, String state, HashMap<Integer, Integer> sal){
+		this.pleasant=pleasant;
+		this.activation=activation;
+		this.context=context;
+		this.multitask= multitask;
+		this.state= state;
+		this.sal = sal;
+
+	}
+	public Integer gSal(int position) {
+		System.out.println(sal.get(position));
+		return sal.get(position);
+	}	
+}
+	
+
