@@ -2,7 +2,9 @@ package com.javainuse.model;
 
 import java.util.HashMap;
 
-public class SimulaRegras {
+import org.kie.api.runtime.rule.FactHandle;
+
+public class SimulaRegras implements FactHandle  {
 
 	
 	public String context;
@@ -14,6 +16,9 @@ public class SimulaRegras {
 	public boolean stop;
 	
 
+
+
+	
 	public SimulaRegras(boolean pleasant, boolean activation, String context, boolean multitask, String state, HashMap<Integer, Integer> sal){
 		this.pleasant=pleasant;
 		this.activation=activation;
@@ -26,7 +31,14 @@ public class SimulaRegras {
 	public Integer gSal(int position) {
 		System.out.println(sal.get(position));
 		return sal.get(position);
-	}	
+	}
+	public String toExternalForm() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
+	
 }
 	
-
