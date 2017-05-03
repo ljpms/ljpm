@@ -1,0 +1,390 @@
+package com.javainuse.model;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
+
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
+
+public class TeleInterface  {
+
+	private static final long serialVersionUID = 1L;
+
+	public JFrame mainFrame;
+	public JFrame imageV;
+	public JLabel background;
+	public JPanel south;
+	public JPanel north;
+	public JPanel west;
+
+
+	public KieSession getKsession() {
+		return ksession;
+	}
+	public JPanel east;
+
+
+	public JButton simula;
+
+	public JPanel ambiente;
+	public JButton pleasant;
+	public JButton activation;
+	public JTextField context;
+	public JPanel taskState;
+	public JTextField state;
+	public JButton multitask;
+	public boolean pleas;
+	public boolean act;
+	public boolean mtask;
+
+
+
+	public JPanel controlBar;
+	public JPanel methods;
+	public JPanel autoBar;
+	public JPanel autoM;
+	public JPanel nautoM;
+	public JLabel cBar;
+
+	public JButton autoC; 
+	public JButton nautoC;
+	public JButton tilt;
+	public JButton touchC;
+	public JButton pointC;
+
+	public JTextField feedback;
+	public JTextField pointI;
+
+
+	public JPanel channels;
+	public JButton voz;
+	public JButton vibra;
+	public JButton visual;
+
+	public JLabel mView = new JLabel("Main View");
+	public  JPanel mainView = new JPanel(new GridLayout(6,1));
+
+
+	public JButton dotW;
+	public JButton gMap;
+	public JButton bumpW;
+	public JButton leadL;
+	public JButton robotV;
+	public JButton headV;
+
+	public List<JButton> bList;
+	
+	public HashMap<Integer, Integer> sal;
+
+
+
+	public KieSession ksession;
+	public final KieContainer kc;
+	
+
+	public TeleInterface(KieSession ksession, KieContainer kc) {
+		sal = new HashMap<Integer, Integer>();
+		this.ksession = ksession;
+		this.kc=kc;
+		for(int i = 0; i<16; i++){
+			sal.put(i, 10);
+		}
+		init();
+		testImage();
+
+
+	}
+
+	public void init() {
+		mainFrame= new JFrame("PAUI's");
+		mainFrame.setLayout(new BorderLayout());
+
+		//controlador     
+		south = new JPanel(new GridLayout(1,4));
+		simula = new JButton("Simula");
+		ambiente= new JPanel(new GridLayout(1, 2));
+		taskState = new JPanel(new GridLayout(1, 2));
+		pleasant = new JButton("Pleasant");
+		activation = new JButton("Activation");
+		multitask = new JButton("Multitask");
+		pleas = false;
+		act = false;
+		mtask = false;
+
+		pleasant.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				pleas = !pleas;
+				if(pleas == true){
+					pleasant.setForeground(Color.GREEN);
+				}else{
+					pleasant.setForeground(Color.BLACK);
+				}
+
+				System.out.println(pleas);
+
+			}
+		}
+				);
+		activation.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				act = !act;
+				if(act == true){
+					activation.setForeground(Color.GREEN);
+				}else{
+					activation.setForeground(Color.BLACK);
+				}
+				System.out.println(act);
+			}
+		}
+				);
+		multitask.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				mtask = !mtask;
+				if(mtask == true){
+					multitask.setForeground(Color.GREEN);
+				}else{
+					multitask.setForeground(Color.BLACK);
+				}
+				System.out.println(mtask);
+			}
+		}
+				);
+
+
+
+		ambiente.add(pleasant);
+		ambiente.add(activation);
+		context = new JTextField("Context");
+		state = new JTextField("State"); 
+		taskState.add(multitask);
+		taskState.add(state);
+
+
+		//		ambiente.setHorizontalAlignment(JTextArea.TOP_ALIGNMENT);
+		context.setHorizontalAlignment(JTextField.CENTER);
+
+		state.setHorizontalAlignment(JTextField.CENTER);
+
+		south.add(simula);
+		south.add(ambiente);
+		south.add(context);
+		south.add(taskState);
+		simula.setPreferredSize(new Dimension(50,50));
+
+		//controlBar
+		controlBar = new JPanel(new GridLayout(4,1));
+		methods = new JPanel(new GridLayout(1,2));
+		autoBar = new JPanel(new GridLayout(1,2));
+		autoM = new JPanel(new GridLayout(2,1));
+		nautoM = new JPanel(new GridLayout(2,1));
+		cBar = new JLabel("Control Bar");
+		//Identificador
+		autoC = new JButton("Automatic");
+		nautoC = new JButton("n/Automatic");
+		tilt = new JButton("Tilting");
+		touchC = new JButton("Touch");
+		pointC = new JButton("Pointing");
+		feedback= new JTextField("Feedback");
+		feedback.setHorizontalAlignment(JTextField.CENTER);
+		pointI= new JTextField("Indicadores Pointing");
+		pointI.setHorizontalAlignment(JTextField.CENTER);
+
+		channels = new JPanel(new GridLayout(1,3));
+		voz = new JButton("Sound");
+		vibra = new JButton("Haptic");
+		visual = new JButton("Visual");
+		channels.add(voz);
+		channels.add(vibra);
+		channels.add(visual);
+
+
+		autoC.setEnabled(false);
+		touchC.setEnabled(false);
+		pointC.setEnabled(false);
+		tilt.setEnabled(false);
+		voz.setEnabled(false);
+		vibra.setEnabled(false);
+		visual.setEnabled(false);
+		nautoC.setEnabled(false);
+
+
+
+
+		west = new JPanel(new BorderLayout());
+		west.add(cBar, BorderLayout.NORTH);
+
+		autoBar.add(autoC);
+		autoBar.add(nautoC);
+
+		autoM.add(pointC);
+		nautoM.add(tilt);
+		nautoM.add(touchC);
+
+
+		methods.add(autoM);
+		methods.add(nautoM);
+
+		controlBar.add(autoBar);
+		controlBar.add(methods);
+		controlBar.add(feedback);
+		controlBar.add(channels);
+
+
+		west.add(controlBar, BorderLayout.CENTER);
+
+
+		//mainView
+		mView = new JLabel("Main View");
+		mainView = new JPanel(new GridLayout(6,1));
+
+
+		dotW = new JButton("DOT WARNINGS");
+		gMap = new JButton("GRID MAP");
+		bumpW = new JButton("BUMP WARNINGS");
+		leadL = new JButton("LEAD LINE");
+		robotV = new JButton("ROBOT VIEW");
+		headV = new JButton("HEAD VIEW");
+
+
+		dotW.setEnabled(false);
+		gMap.setEnabled(false);
+		bumpW.setEnabled(false);
+		leadL.setEnabled(false);
+		robotV.setEnabled(false);
+		headV.setEnabled(false);
+
+
+		dotW.setHorizontalAlignment(JTextField.CENTER);
+		gMap.setHorizontalAlignment(JTextField.CENTER);
+		bumpW.setHorizontalAlignment(JTextField.CENTER);
+		leadL.setHorizontalAlignment(JTextField.CENTER);
+		robotV.setHorizontalAlignment(JTextField.CENTER);
+		headV.setHorizontalAlignment(JTextField.CENTER);     
+
+
+
+
+		east = new JPanel(new BorderLayout());
+		east.add(mView,BorderLayout.NORTH);
+		mainView.add(dotW);
+		mainView.add(headV);
+		mainView.add(robotV);
+		mainView.add(leadL);
+		mainView.add(bumpW);
+		mainView.add(gMap);
+
+		east.add(mainView, BorderLayout.CENTER);
+
+		bList = new ArrayList<JButton>();
+		bList.add(autoC);
+		bList.add(nautoC);
+		bList.add(pointC);
+		bList.add(tilt);
+		bList.add(touchC);
+		bList.add(vibra);
+		bList.add(visual);
+		bList.add(voz);
+		bList.add(dotW);
+		bList.add(gMap);
+		bList.add(bumpW);
+		bList.add(leadL);
+		bList.add(robotV);
+		bList.add(headV);
+
+		simula.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				for (JButton item : bList) {
+					item.setForeground(Color.black);
+				}
+
+				System.out.println("pleasant:" + pleas + "    activation:" +  act +"   context:" + context.getText() + "   multitasking:" + 
+						mtask + "    state:"+ state.getText());
+				System.out.println(sal.values());
+				FactHandle fact1;
+				
+				FactHandle fact2;
+			
+				fact1= new SimulaRegras(pleas, act, context.getText(), mtask, state.getText(),sal);
+	
+		
+				
+				
+				ksession.insert(fact1);
+				
+				ksession.fireAllRules(1);
+				ksession = kc.newKieSession("ksession-rule");
+				ksession.notify();
+			}
+
+		}
+	);
+
+		JSplitPane center = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,west, east);
+		center.setOneTouchExpandable(true);
+		center.setDividerLocation(200);
+
+
+		mainFrame.add(center, BorderLayout.CENTER);
+		mainFrame.add(south, BorderLayout.SOUTH);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setSize(800, 500);
+		mainFrame.setVisible(true);
+
+
+	}        
+
+	public void action(String b, Boolean c){
+		feedback.setText(b);
+//		System.out.println(b);
+	}
+	
+
+
+	public void sSal(int position){
+		 String result = JOptionPane.showInputDialog(null,"Nível de Satisfação com a Regra: [-10; 10]");
+		
+		 int x = Integer.parseInt(result) + sal.get(position);
+		sal.replace(position, x);
+		System.out.println(position);
+
+
+}
+
+
+	
+	public void infoBox(String type, String action, String state){
+		JOptionPane.showMessageDialog(null,"Tipo: " + type+"  Ação: "+action+ "  Descrição: "+ state );
+//		System.out.println(action);
+		
+	}
+	public void testImage() {
+		imageV= new JFrame("PAUI's");
+		imageV.setLayout(new BorderLayout());
+		background=new JLabel();
+		background.setIcon(new ImageIcon("contraste.png"));
+	
+		imageV.add(background);
+		imageV.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		imageV.setSize(1203, 752);
+		imageV.setVisible(true);
+
+
+	}   
+}
